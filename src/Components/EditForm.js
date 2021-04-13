@@ -5,15 +5,16 @@ import StateContext from "../context";
 import { Label, Input, Button, StyledErrorMessage, Section } from "../styles";
 
 const EditForm = () => {
-  const { addressObject, updateProcessState, updateUserAddress } = useContext(
+  const { updateProcess, userAddress, updateUserAddress } = useContext(
     StateContext
   );
-  const { country, city, postcode, street, housenumber } = addressObject;
+  const { state, country, city, postcode, street, housenumber } = userAddress;
 
   return (
     <Section>
       <Formik
         initialValues={{
+          state: state,
           country: country,
           city: city,
           postcode: postcode,
@@ -21,6 +22,9 @@ const EditForm = () => {
           housenumber: housenumber,
         }}
         validationSchema={Yup.object({
+          state: Yup.string()
+            .min(2, "Must be 2 characters or more")
+            .required("Required"),
           country: Yup.string()
             .min(2, "Must be 2 characters or more")
             .required("Required"),
@@ -37,10 +41,18 @@ const EditForm = () => {
             .required("Required"),
         })}
         onSubmit={(values) => {
-          console.log(JSON.stringify(values, null, 2));
+          updateUserAddress({ ...values });
+          updateProcess("submitted");
         }}
       >
         <Form>
+          <Label htmlFor="state">
+            State
+            <Input name="state" type="text" />
+          </Label>
+          <ErrorMessage name="state">
+            {(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>}
+          </ErrorMessage>
           <Label htmlFor="country">
             Country
             <Input name="country" type="text" />
@@ -75,9 +87,7 @@ const EditForm = () => {
             {(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>}
           </ErrorMessage>
 
-          <Button onClick={() => updateProcessState("submitted")} type="submit">
-            Save
-          </Button>
+          <Button type="submit">Next</Button>
         </Form>
       </Formik>
     </Section>
