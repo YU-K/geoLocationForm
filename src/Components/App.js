@@ -6,19 +6,24 @@ import StateContext from "../context";
 import ShowResults from "./ShowResults";
 
 const App = () => {
-  const { processState, onSelect } = useContext(StateContext);
+  const { process } = useContext(StateContext);
 
-  switch (processState) {
+  switch (process) {
     case "filling":
-      return <SearchAddress onSelect={onSelect} />;
-    case "finished":
-      return <ShowResults />;
+      return <SearchAddress />;
+    case "selected":
+      return (
+        <>
+          <SearchAddress />
+          <ShowResults />
+        </>
+      );
     case "editing":
       return <EditForm />;
     case "submitted":
       return <SuccessMessage />;
     default:
-      throw new Error(`'${processState}' - unknown state`);
+      throw new Error(`'${process}' - unknown state`);
   }
 };
 
