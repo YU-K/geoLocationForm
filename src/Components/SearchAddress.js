@@ -24,13 +24,12 @@ const SearchAddress = () => {
 
   const getUserAddressObject = (obj1, obj2) => {
     const keys = Object.keys(obj1);
-    keys.map((key) => {
+    _.forEach(keys, (key) => {
       if (!_.has(obj2, key)) {
         return;
       }
       obj2[key] = obj1[key];
     });
-    return;
   };
 
   const onSelect = (value) => {

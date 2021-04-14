@@ -9,7 +9,7 @@ import Divider from "@material-ui/core/Divider";
 const ShowResults = () => {
   const { updateProcess, userAddress } = useContext(StateContext);
 
-  const useStyles = makeStyles((theme) => ({
+  const useStyles = makeStyles(() => ({
     mgBottom20: {
       "margin-bottom": "20px",
       "margin-top": "10px",
@@ -48,6 +48,7 @@ const ShowResults = () => {
             onClick={() => updateProcess("editing")}
           />
           <Divider className={classes.mgBottom20} />
+
           <table key="fieldsValues" className="table">
             <tbody>{keys.map(renderRow)}</tbody>
           </table>
