@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import App from "./Components/App";
 import StateContext from "./context";
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import theme from "./theme";
+
+const customTheme = createMuiTheme(theme);
 
 const Main = () => {
   const [process, updateProcess] = useState("filling");
@@ -10,18 +14,20 @@ const Main = () => {
 
   return (
     <React.StrictMode>
-      <StateContext.Provider
-        value={{
-          process,
-          updateProcess,
-          userAddress,
-          addressObject,
-          updateUserAddress,
-          setAddress,
-        }}
-      >
-        <App />
-      </StateContext.Provider>
+      <MuiThemeProvider theme={customTheme}>
+        <StateContext.Provider
+          value={{
+            process,
+            updateProcess,
+            userAddress,
+            addressObject,
+            updateUserAddress,
+            setAddress,
+          }}
+        >
+          <App />
+        </StateContext.Provider>
+      </MuiThemeProvider>
     </React.StrictMode>
   );
 };
